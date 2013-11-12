@@ -1,0 +1,220 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.z3cform.wizard"
+      tal:omit-tag="">
+
+
+<style>
+/*label, input {
+    display: inline-block;
+    vertical-align: baseline;
+    width: 125px;
+}
+
+label {
+    color: #2D2D2D;
+    font-size: 15px;
+}
+
+form, input {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}*/
+  li.wizard-step-link { 
+    float: left;
+    display: block;
+    padding: 5px;ß
+  }
+  div.form {clear: both;}
+</style>
+<script type="text/javascript">
+$(function($){
+  $( "#read_more" ).click(function() {
+    $( ".read_more" ).toggle( "slow", function() {
+      // Animation complete.
+    });
+  });
+});
+
+        $(function($){
+          $('a#add-person').prepOverlay({
+            subtype: 'ajax',
+            filter: '#content>*',
+            formselector: 'form',
+            closeselector: 'INPUT#form-buttons-cancel',
+            noform: 'redirect',
+            redirect: function () {return location.href;}, 
+            width:'50%'
+          });
+
+          $('a#add-relation').prepOverlay({
+            subtype: 'ajax',
+            filter: '#content>*',
+            formselector: 'form',
+            closeselector: 'a.add-club',
+            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
+            redirect: function () {return location.href;},    
+            width:'50%'
+
+          });
+
+          $('a#remove-relation').prepOverlay({
+            subtype: 'ajax',
+            formselector: 'form',
+            closeselector: '[name="form.button.Cancel"]',
+            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
+            redirect: function () {return location.href;},    
+            width:'30%'
+
+          });
+
+        });
+</script>
+<p style="cursor: pointer;" id="read_more">Hur fungerar det här?</p>
+<div style="display: none;" class="read_more">
+<p>
+För att du skall få återbäringen och alla idrottskostnader för din familj samlad till ett och samma Heja Sverige-konto så registrerar du in dina barn och övriga familjemedlemmar här.</p><p>
+Om du INTE är medlem i en förening men ditt barn är det. Då registrerar du in barnets uppgifter här samt de föreningar barnet är med i. Du kommer nu att få in barnets räkningar på ditt Heja Sverige-konto.</p>
+<h3>Koppla föreningar.</h3><p>
+För att föreningen skall kunna skicka dig fakturor och ta del av din återbäring så måste du koppla ditt konto mot föreningen. Om du vill lägga till fler föreningar så gör du det genom att klicka på plustecknet. Att föreningen är ansluten till Heja Sverige bekräftas av en Heja Sverige-symbol till höger om föreningens namn när du söker efter föreningar. Om föreningen inte är ansluten till Heja Sverige och du kopplar ditt konto mot föreningen, så kommer vi att underrätta föreningen om detta.
+</p><h3>Lägg till bild.</h3><p>
+Om du vill så kan du lägga till bilder på dina familjemedlemmar. Bilderna tillsammans med personuppgifter kommer att finnas i vänsterspalten när du loggat in på ditt Heja Sverige-konto.
+</p>
+</div>  
+
+<style>
+  div.person {margin: 5px auto; padding: 5px; border: 1px solid gray; -webkit-border-radius: 6px; clear: both;}
+  div.person_left {
+    float: left;
+    width: 300px;
+  }
+  div.person_right {margin-left: 300px;}
+  div.person_image {float:left;margin:0 5px 0 0;}
+</style>
+<tal:me define="me view/me">
+
+<div class="person me">
+  <div class="person_left">
+    <div class="person_image"><img tal:define="width python:64" tal:attributes="src me/portrait/absolute_url;width width" alt="Profilbild" /></div>   
+    <span tal:content="me/name">Mig själv</span><br/><span tal:content="me/personal_id">780424-6697</span>
+  </div>
+  <div class="person_right">
+    <h4>Föreningar
+    <a href="#" id="add-relation" tal:attributes="href string:${me/addrelationurl}?wizard=true&wizard_url=${view/wizard_url}">Lägg till förening</a>
+  </h4>
+    <ul tal:repeat="club me/clubs">
+      <li><span tal:replace="club/club/title">Testklubb</span> <a id="remove-relation" tal:attributes="href python:view.remove_club_url(club)" href="#">(x)</a></li>
+    </ul>
+  </div>
+  <div style="clear: both;" />
+</div>
+</tal:me>
+
+
+
+<div>
+  <tal:persons repeat="person view/my_family">
+  <div class="person" >
+    <div class="person_left">
+      <div class="person_image"><img tal:define="scales person/person/@@images;
+                            thumbnail python: scales.scale('avatar', width=64, height=64, direction='down');"
+                            tal:condition="thumbnail"
+                            tal:attributes="src thumbnail/url;
+                                            width thumbnail/width;
+                                            height thumbnail/height" /></div>
+      <span tal:content="person/name">Befintlig Person</span><br/><span tal:content="person/person/personal_id">050619-0495</span>
+    </div>
+
+    <div class="person_right">
+      <h4>Föreningar
+      <a tal:attributes="href python:view.add_club_url(person) + '?wizard=true&wizard_url=' + view.wizard_url()" id="add-relation" href="#">Lägg till förening</a>
+      </h4>
+      <ul tal:repeat="club person/clubs">
+        <li><span tal:replace="club/club/title">Testklubb</span> <a id="remove-relation" tal:attributes="href python:view.remove_club_url(club)" href="#">(x)</a></li>
+      </ul>
+
+    </div>
+  <div style="clear: both;" />
+  </div>
+  </tal:persons>
+</div>
+<!--div>
+  <h3>Ny person</h3>
+  <form tal:attributes="action python:view.add_person_url()" method="post">
+    
+    <input name="first_name" type="text" value="Förnamn" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" />  
+    <input name="last_name" type="text" value="Efternamn" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" />  
+    <input name="personal_id" type="text" value="Personnummer" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" />  
+    <input type="submit" value="Lägg till"/>
+  </form>
+</div-->
+
+<a id="add-person" tal:attributes="href python:view.add_person_url()">Ny person</a>
+
+
+<!--tal:widgets repeat="widget view/widgets/values">
+  <div class="row"
+       tal:define="hidden python:widget.mode == 'hidden'"
+       tal:omit-tag="hidden">
+
+    <metal:field use-macro="context/@@ploneform-macros/field" />
+    
+  </div>
+</tal:widgets>
+
+<tal:groups define="groups nocall:view/groups|nothing" repeat="group groups">
+  <fieldset class="group" tal:condition="group/widgets" tal:attributes="id string:fieldset-${group/prefix}">
+    <legend tal:content="group/label" />
+
+    <div tal:define="errors group/widgets/errors" tal:condition="errors">
+        <div tal:repeat="error errors">
+            <tal:block
+                condition="not:nocall:error/widget"
+                replace="structure error/render"
+                />
+        </div>
+    </div>
+
+    <tal:widgets repeat="widget group/widgets/values">
+      <div class="row"
+           tal:define="hidden python:widget.mode == 'hidden'"
+           tal:omit-tag="hidden">
+
+        <metal:field use-macro="context/@@ploneform-macros/field" />
+
+      </div>
+    </tal:widgets>
+  </fieldset>
+</tal:groups>
+
+<metal:use use-macro="context/@@ploneform-macros/actions" /-->
+
+
+<!--div tal:repeat="form view/subforms"
+     tal:content="structure form/render">
+</div-->
+
+
+<!--h3 tal:content="python:view.subforms[0].label">
+    Form label
+</h3>
+  <tal:block tal:define="form python:view.subforms[0]">
+      <div class="portalMessage"
+           tal:condition="form/status" tal:content="form/status">
+      </div>
+  </tal:block>
+  
+  <table class="listing orderable-crud">
+      <thead>
+          <th colspan="2" class="nosort"/>
+      </thead>
+  </table>
+
+  <tal:block tal:content="structure python:view.subforms[0].render()"/-->
+
+
+
+</html>

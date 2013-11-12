@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.z3cform.wizard"
+      tal:omit-tag="">
+  
+<h2>
+  Lägg till kort
+</h2>
+
+<script type="text/javascript">
+$(function($){
+  $( "#read_more" ).click(function() {
+    $( ".read_more" ).toggle( "slow", function() {
+      // Animation complete.
+    });
+  });
+});
+</script>
+<p style="cursor: pointer;" id="read_more">Hur fungerar det här?</p>
+<div style="display: none;" class="read_more">
+<p>
+Ett grundläggande drag i Heja Sverige är att du inte behöver något extra kort för att få del av din återbäring. Du handlar och betalar med ditt vanliga betalkort och din återbäring förs automatiskt in på ditt Heja Sverige-konto. För att detta skall fungera så måste ditt betalkort vara kopplat mot ditt Heja Sverige-konto genom så kallad ”förenklad inloggning”. Detta är en tjänst som används för bankappar i smartphones samt surfplattor. Förenklad inloggning består av ditt person-nummer och ett lösenord i form av en fyrsiffrig personlig kod. Observera att koden INTE är den samma som din PIN-kod till ditt betalkort. För att få tillgång till ”förenklad inloggning” så måste du först ha en internetbanktjänst som alla banker i Sverige erbjuder.</p><p>
+Första steget är att välja ut den bank du är ansluten till, klicka i rutan bredvid din bank och klicka sedan på NÄSTA . I det andra steget skall du fylla i ditt personnummer och din fyrsiffriga kod. Om du har funderingar kring detta så klickar du på länken ”Hur funkar det? så hittar du en detaljerad information kring hur din bank hanterar ”förenklad inloggning”. Där finns även förklaringar till hur du får en personlig kod från din bank om du inte har en sådan.
+</p>
+</div> 
+
+  <table class="listing">
+    <tr tal:repeat="item view/get_items"
+        tal:attributes="class python:repeat['item'].odd() and 'odd' or 'even'">
+      <td>
+        <span
+           tal:content="item/label"/>
+      </td>
+    </tr>
+  </table>
+
+  <a id="add-bank" tal:attributes="href string:${view/get_kollkoll_url}/@@add-bank" i18n:translate="">Lägg till</a>           
+
+  <p/>
+
+<tal:widgets repeat="widget view/widgets/values">
+  <div class="row"
+       tal:define="hidden python:widget.mode == 'hidden'"
+       tal:omit-tag="hidden">
+
+    <metal:field use-macro="context/@@ploneform-macros/field" />
+    
+  </div>
+</tal:widgets>
+
+<tal:groups define="groups nocall:view/groups|nothing" repeat="group groups">
+  <fieldset class="group" tal:condition="group/widgets" tal:attributes="id string:fieldset-${group/prefix}">
+    <legend tal:content="group/label" />
+
+    <div tal:define="errors group/widgets/errors" tal:condition="errors">
+        <div tal:repeat="error errors">
+            <tal:block
+                condition="not:nocall:error/widget"
+                replace="structure error/render"
+                />
+        </div>
+    </div>
+
+    <tal:widgets repeat="widget group/widgets/values">
+      <div class="row"
+           tal:define="hidden python:widget.mode == 'hidden'"
+           tal:omit-tag="hidden">
+
+        <metal:field use-macro="context/@@ploneform-macros/field" />
+
+      </div>
+    </tal:widgets>
+  </fieldset>
+</tal:groups>
+
+<metal:use use-macro="context/@@ploneform-macros/actions" />
+
+<div tal:repeat="form view/subforms"
+     tal:content="structure form/render">
+</div>
+
+</html>

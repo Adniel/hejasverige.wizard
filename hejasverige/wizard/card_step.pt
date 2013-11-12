@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.z3cform.wizard"
+      tal:omit-tag="">
+  
+<!--h2>
+  Lägg till kort
+</h2-->
+
+<script type="text/javascript">
+$(function($){
+  $( "#read_more" ).click(function() {
+    $( ".read_more" ).toggle( "slow", function() {
+      // Animation complete.
+    });
+  });
+  $('a#add-bank').prepOverlay({
+    subtype: 'ajax',
+    filter: '#content>*',
+    //formselector: 'form',
+    closeselector: '[name="form.button.Cancel"]',
+    noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
+    redirect: function () {
+      console.log('redirect', location.href);
+      return location.href;
+    },    
+    width:'30%'
+  });
+
+});
+</script>
+<style>
+  li.wizard-step-link { 
+    float: left;
+    display: block;
+    padding: 5px;ß
+  }
+  div.form {clear: both;}    
+  </style>
+
+<p style="cursor: pointer;" id="read_more">Hur fungerar det här?</p>
+<div style="display: none;" class="read_more">
+<p>
+I Heja Sverige behöver du inte något extra kort för att få del av din återbäring. Du handlar och betalar med ditt vanliga betalkort och din återbäring förs automatiskt in på ditt Heja Sverige-konto. För att detta skall fungera så måste ditt betalkort vara kopplat mot ditt Heja Sverige-konto genom så kallad ”förenklad inloggning”. Detta är en tjänst som används för bankappar i smartphones samt surfplattor. Förenklad inloggning består av ditt personnummer och ett lösenord i form av en fyrsiffrig personlig kod. Observera att koden INTE är den samma som din PIN-kod till ditt betalkort. För att få tillgång till ”förenklad inloggning” så måste du först ha en internetbanktjänst som alla banker i Sverige erbjuder.</p><p>
+
+Välj de banker du vill lägga till genom att klicka på Lägg till bank. I rutan som öppnas fyller du i ditt personnummer och din fyrsiffriga kod för förenklad inloggning.
+</p>
+</div> 
+
+  <!--table class="listing">
+    <tr tal:repeat="item view/get_items"
+        tal:attributes="class python:repeat['item'].odd() and 'odd' or 'even'">
+      <td>
+        <span
+           tal:content="item/label"/>
+      </td>
+    </tr>
+  </table-->
+
+  <a id="add-bank" tal:attributes="href string:${view/get_kollkoll_url}/@@add-bank?return_url=${view/wizard_url}" i18n:translate="">Lägg till bank</a>  
+  <h3>Anslutna banker</h3>         
+  <table cellpadding="10" border="0" class="listing nosort messageListing">
+        <thead>
+          <th>Bank</th>
+          <th/>
+        </thead>
+        <tbody>
+        <tal:boucle tal:repeat="item view/connected_banks">
+            <tr>
+              <td tal:content="item/name | nothing" />
+              <td><a href="#" tal:attributes="href string:${view/get_kollkoll_url}/@@delete-bank?id=${item/id}&return_url=${view/wizard_url}" id="remove-bank">Ta bort</a></td>
+            </tr>
+        </tal:boucle>
+        </tbody>
+    </table>      
+
+
+  <p/>
+
+
+<metal:use use-macro="context/@@ploneform-macros/actions" />
+
+<div tal:repeat="form view/subforms"
+     tal:content="structure form/render">
+</div>
+
+</html>

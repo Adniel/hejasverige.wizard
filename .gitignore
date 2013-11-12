@@ -1,0 +1,10 @@
+*.egg-info
+*.mo
+*.pyc
+*.pyo
+*~
+.DS_Store
+.DS_store
+.long-description.html
+dist
+.DS_Store

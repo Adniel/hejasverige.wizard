@@ -1,0 +1,22 @@
+<tal:block i18n:domain="hejasverige.wizard">
+<style>
+  li.wizard-step-link { 
+    float: left;
+    display: block;
+    padding: 5px;ß
+  }
+  div.form {clear: both;}    
+  </style>
+
+<p i18n:translate="">
+Hej! Välkommen till Heja Sverige. 
+Här följer tre enkla steg för att slutföra din registrering. 
+</p>
+<ul>
+  <li>Kontrollera dina personuppgifter, fyll i adressuppgifter.</li>
+  <li>Lägg till familjemedlemmar och föreningar.</li>
+  <li>Registrerar ditt betalkort.</li>
+
+Om du vill söka mer info klickar du på länken ”Hur funkar det här?” på respektive sida
+
+</tal:block>

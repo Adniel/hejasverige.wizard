@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.z3cform.wizard"
+      tal:omit-tag="">
+  
+<tal:widgets repeat="widget view/widgets/values">
+  <div class="row"
+       tal:define="hidden python:widget.mode == 'hidden'"
+       tal:omit-tag="hidden">
+
+    <metal:field use-macro="context/@@ploneform-macros/field" />
+    
+  </div>
+</tal:widgets>
+<script type="text/javascript">
+$(function($){
+  $( "#read_more" ).click(function() {
+    $( ".read_more" ).toggle( "slow", function() {
+      // Animation complete.
+    });
+  });
+
+  // Fullname
+  $('#personalinfo-widgets-fullname').attr('placeholder', $('#formfield-personalinfo-widgets-fullname  label').text().trim());
+  $('#formfield-personalinfo-widgets-fullname label').remove();
+
+  // personal id
+  $('#personalinfo-widgets-personal_id').attr('placeholder', $('#formfield-personalinfo-widgets-personal_id  label').text().trim());
+  $('#formfield-personalinfo-widgets-personal_id label').remove();
+
+  // Address 1
+  $('#address-widgets-address1').attr('placeholder', $('#formfield-address-widgets-address1 label').text().trim());
+  $('#formfield-address-widgets-address1 label').remove();
+
+  // Address 2
+  $('#address-widgets-address2').attr('placeholder', $('#formfield-address-widgets-address2 label').text().trim());
+  $('#formfield-address-widgets-address2 label').remove();
+
+  // Postal code
+  $('#address-widgets-postal_code').attr('placeholder', $('#formfield-address-widgets-postal_code label').text().trim());
+  $('#formfield-address-widgets-postal_code label').remove();
+
+  // City
+  $('#address-widgets-city').attr('placeholder', $('#formfield-address-widgets-city label').text().trim());
+  $('#formfield-address-widgets-city label').remove();
+});
+</script>
+
+<style>
+  li.wizard-step-link { 
+    float: left;
+    display: block;
+    padding: 5px;ß
+  }
+  div.form {clear: both;}
+</style>
+<tal:groups define="groups nocall:view/groups|nothing" repeat="group groups">
+  <fieldset class="group" tal:condition="group/widgets" tal:attributes="id string:fieldset-${group/prefix}">
+    <legend tal:content="group/label" />
+
+    <div tal:define="errors group/widgets/errors" tal:condition="errors">
+        <div tal:repeat="error errors">
+            <tal:block
+                condition="not:nocall:error/widget"
+                replace="structure error/render"
+                />
+        </div>
+    </div>
+
+    <tal:widgets repeat="widget group/widgets/values">
+      <div class="row"
+           tal:define="hidden python:widget.mode == 'hidden'"
+           tal:omit-tag="hidden">
+
+        <metal:field use-macro="context/@@ploneform-macros/field" />
+
+      </div>
+    </tal:widgets>
+  </fieldset>
+</tal:groups>
+
+<metal:use use-macro="context/@@ploneform-macros/actions" />
+
+<div tal:repeat="form view/subforms"
+     tal:content="structure form/render">
+</div>
+
+<p style="font-size: small; cursor: pointer;" id="read_more">Information om PUL</p>
+<div style="display: none; -webkit-border-radius: 6px; border: 1px solid gold" class="read_more">
+<h3>Datasäkerhet samt behandling av köpinformation och personuppgifter (PUL)</h3>
+<p>
+För att elektronisk kommunikation ska vara säker krävs någon form av elektronisk motsvarighet till traditionella ID-handlingar. Elektronisk identifiering, signering och kryptering är förutsättningar för att skapa förtroende och trygghet i olika affärssituationer. Heja Sverige Föreningar AB vill skapa samma trygghet som du har på din internetbank. Därför använder vi samma system som Bankgirot och de stora affärsbankerna PKI – Public Key Infrastructure – systemet skapar en säker och trygg kommunikation mellan dig och Heja Sverige Föreningar AB. PKI skapar också förutsättningar för säkra e-handelslösningar genom identifiering, kryptering och signering av transaktioner. Till detta skall läggas en rad andra säkerhetslösningar som ex att kommunikationen mellan din webbläsare och Heja Sverige Föreningar AB är krypterad med 256-bitars Extended Validation SSL.
+Att hantera våra medlemmars personuppgifter tar vi på största allvar, och det är ett förtroende som återspeglas direkt i våra säkerhetslösningar. Därför följer vi Datainspektionens föreskrifter (DIFS 1998:2) och PUL 36§ och har en personuppgiftsansvarig registrerad hos Datainspektionen. 
+I samband med ansökan om medlemskap i Heja Sverige Föreningar AB Medlemsprogram registreras uppgifter om medlemmen Ändamålet med detta är att administrera Heja Sverige Föreningar AB´s medlemsregister respektive Medlemsprogrammet. Vid registrering av köp registrerar Heja Sverige Föreningar AB uppgifter om köpet och medlemmen. Ändamålet med registreringen är att administrera Medlemsprogrammet samt att samla och analysera information om köp till grund för erbjudanden och rabatter samt marknadsföring av både generell och riktad karaktär. 
+Heja Sverige Föreningar AB kan genom samkörning med andra personregister komma att uppdatera personuppgifter och tillföra personuppgifter för utveckling och upprätthållande av en effektiv och god kund- och registervård. Uppgifter kan komma att lämnas ut till föreningar eller juridiska personer anslutna till Medlemsprogrammet för de ändamål som anges ovan och enligt avtal med Heja Sverige Föreningar AB. Uppgifter om vilka varor och tjänster som köpts behandlas inte längre än tjugofyra (24) månader från köpet för dessa ändamål. Personuppgifter sparas inte längre tid än vad som är nödvändigt med hänsyn till ändamålet med behandlingen.</p><p>
+Personuppgifter kan också komma att lämnas ut till andra för behandling för Heja Sveriges Föreningar ABs räkning. Utöver detta kan Heja Sverige Föreningar AB enligt lag tvingas att lämna ut personuppgifter till annan.
+Senast i och med användande av betalkort, kopplat till Heja Sverige konto vid betalning hos ansluten Partner, ger kontoinnehavaren samtycke till att Heja Sverige Föreningar AB behandlar personuppgifter samt köpinformation för ovanstående ändamål.
+Den som inte vill motta adresserad reklam och erbjudanden kan kontakta Heja Sverige Föreningar AB Kundtjänst och begära en reklamspärr. Information om vilka personuppgifter som är registrerade kan erhållas efter skriftlig begäran till Heja Sverige Föreningar AB Kundtjänst. Heja Sverige Föreningar AB kommer på eget eller på Kontoinnehavarens initiativ rätta felaktiga uppgifter.</p><p>
+Personuppgifter sparas i enlighet med Personuppgiftslagen (PUL). Enligt PUL har du rätt att få information om behandling av personuppgifter. Önskas utdrag av dina personuppgifter, kontakta oss på adress under <a href="/kontakt">Kontakt</a>
+</p>
+</div>  
+
+</html>
