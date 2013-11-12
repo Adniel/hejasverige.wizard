@@ -177,14 +177,14 @@ class FamilyStep(wizard.Step, crud.CrudForm):
             }
         return self.getContent().setdefault('fields', fields)
 
-
+'''
 from plone.z3cform.crud import crud
 from plone.z3cform.tests import setup_defaults
 from plone.z3cform.layout import wrap_form
 
 setup_defaults()
 
-from zope import interface, schema
+#from zope import interface, schema
 #class IPerson(interface.Interface) :
 #    name = schema.TextLine()
 #    age = schema.Int()
@@ -292,3 +292,4 @@ class TestView(FormWrapper):
     
     def absolute_url(self):
         return '%s/%s' % (self.context.absolute_url(), self.__name__)
+'''
