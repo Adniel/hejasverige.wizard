@@ -28,7 +28,7 @@
         permission="cmf.SetOwnPassword"
         />  
 
-<browser:page
+<!--browser:page
         name="testview"
         for="Products.CMFCore.interfaces.ISiteRoot"
         class=".family_step.TestView"
@@ -40,6 +40,6 @@
         for="Products.CMFCore.interfaces.ISiteRoot"
         class=".card_step.CardAddView"
         permission="cmf.ModifyPortalContent"
-        />  
+        /-->  
 
 </configure>
