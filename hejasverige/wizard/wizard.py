@@ -6,6 +6,8 @@ from collective.z3cform.wizard import wizard
 from plone.z3cform.layout import FormWrapper
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.statusmessages.adapter import _decodeCookieValue
+from collective.beaker.interfaces import ISession
+
 
 from five import grok
 from plone import api
@@ -31,9 +33,25 @@ class IntroStep(wizard.Step):
     label = 'Introduktion'
     index = viewpagetemplatefile.ViewPageTemplateFile('intro.pt')
 
+    def __init__(self, context, request, wizard):
+        # Use collective.beaker for session managment
+        session = ISession(request, None)
+        session.auto = True
+        self.sessionmanager = session
+
+        super(IntroStep, self).__init__(context, request, wizard)
 
 class Wizard(wizard.Wizard):
     label = u"Kom igång"
+
+    def update(self):
+        # Use collective.beaker for session managment
+        session = ISession(self.request, None)
+        session.auto = True
+        self.sessionmanager = session
+        
+        super(Wizard, self).update()
+
 
     @property
     def steps(self):
@@ -47,6 +65,10 @@ class Wizard(wizard.Wizard):
         for step in self.activeSteps:
             if hasattr(step, 'apply'):
                 step.apply(pfg, initial_finish=initial_finish)
+    
+    def showClear(self):
+        return False
+
 
 
 class WizardView(FormWrapper):

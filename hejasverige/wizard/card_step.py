@@ -77,6 +77,15 @@ class CardStep(wizard.Step):
        schema.TextLine(__name__='bank', title=u'Favorite Bank', required=True),
     )
 
+    def __init__(self, context, request, wizard):
+        # Use collective.beaker for session managment
+        session = ISession(request, None)
+        session.auto = True
+        self.sessionmanager = session
+
+        super(CardStep, self).__init__(context, request, wizard)
+
+
     def connected_banks(self):
         kollkoll = Kollkoll()
 

@@ -13,6 +13,7 @@ from hejasverige.content.person import IRelation
 from hejasverige.content.eventsubscribers import _getFolder
 from plone.app.uuid.utils import uuidToObject
 import urllib
+from collective.beaker.interfaces import ISession
 
 try:
     from zope.browserpage import viewpagetemplatefile
@@ -24,7 +25,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class FamilyStep(wizard.Step, crud.CrudForm):
+class FamilyStep(wizard.Step):
     # not using crud form yet. But should do.
 
     label = 'Familj och föreningar'
@@ -38,6 +39,14 @@ class FamilyStep(wizard.Step, crud.CrudForm):
     #update_schema = IOrdered
     addform_factory = crud.NullForm
     #editform_factory = FieldListingForm
+
+    def __init__(self, context, request, wizard):
+        # Use collective.beaker for session managment
+        session = ISession(request, None)
+        session.auto = True
+        self.sessionmanager = session
+
+        super(FamilyStep, self).__init__(context, request, wizard)
 
     def wizard_url(self):
         #import pdb; pdb.set_trace()

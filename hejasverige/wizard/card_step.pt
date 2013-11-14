@@ -37,6 +37,9 @@ $(function($){
     display: block;
     padding: 5px;ß
   }
+  li.selected {
+    font-weight: bold;
+  }  
   div.form {clear: both;}    
   </style>
 

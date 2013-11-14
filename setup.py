@@ -27,6 +27,7 @@ setup(name='hejasverige.wizard',
           'setuptools',
           'Plone',
           'collective.z3cform.wizard',
+          'collective.beaker',
           'plone.namedfile',
           'plone.formwidget.namedfile',
           # -*- Extra requirements: -*-

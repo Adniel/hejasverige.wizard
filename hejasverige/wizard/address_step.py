@@ -10,6 +10,8 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from z3c.form import field, form
 
+from collective.beaker.interfaces import ISession
+
 from collective.z3cform.wizard import wizard
 try:
     from zope.browserpage import viewpagetemplatefile
@@ -52,6 +54,14 @@ class AddressStep(wizard.GroupStep):
     fields = field.Fields()
     groups = [PersonalInfoGroup, AddressGroup]
 
+    def __init__(self, context, request, wizard):
+        # Use collective.beaker for session managment
+        session = ISession(request, None)
+        session.auto = True
+        self.sessionmanager = session
+
+        super(AddressStep, self).__init__(context, request, wizard)
+
     #def updateWidgets(self):
         
         #super(AddressStep, self).updateWidgets()
@@ -67,7 +77,6 @@ class AddressStep(wizard.GroupStep):
         data = self.getContent()
 
         # Personal info group
-        #import pdb; pdb.set_trace()
         #if not data.get('portrait', None):
         #    portrait = member.getPersonalPortrait()
         #    data['portrait'] = portrait

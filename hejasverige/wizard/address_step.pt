@@ -54,6 +54,9 @@ $(function($){
     display: block;
     padding: 5px;ß
   }
+  li.selected {
+    font-weight: bold;
+  }
   div.form {clear: both;}
 </style>
 <tal:groups define="groups nocall:view/groups|nothing" repeat="group groups">

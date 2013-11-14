@@ -28,6 +28,9 @@ form, input {
     display: block;
     padding: 5px;ß
   }
+  li.selected {
+    font-weight: bold;
+  }  
   div.form {clear: both;}
 </style>
 <script type="text/javascript">
@@ -72,6 +75,8 @@ $(function($){
           });
 
         });
+
+
 </script>
 <p style="cursor: pointer;" id="read_more">Hur fungerar det här?</p>
 <div style="display: none;" class="read_more">
