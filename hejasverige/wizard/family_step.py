@@ -43,7 +43,7 @@ class FamilyStep(wizard.Step):
     def __init__(self, context, request, wizard):
         # Use collective.beaker for session managment
         session = ISession(request, None)
-        session.auto = True
+        session.auto = 'on'
         self.sessionmanager = session
 
         super(FamilyStep, self).__init__(context, request, wizard)
