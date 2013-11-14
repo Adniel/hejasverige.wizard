@@ -36,18 +36,17 @@ class IntroStep(wizard.Step):
     def __init__(self, context, request, wizard):
         # Use collective.beaker for session managment
         session = ISession(request, None)
-        session.auto = 'on'
         self.sessionmanager = session
 
         super(IntroStep, self).__init__(context, request, wizard)
 
 class Wizard(wizard.Wizard):
     label = u"Kom igång"
+    validate_back = False
 
     def update(self):
         # Use collective.beaker for session managment
         session = ISession(self.request, None)
-        session.auto = 'on'
         self.sessionmanager = session
         
         super(Wizard, self).update()

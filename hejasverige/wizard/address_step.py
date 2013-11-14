@@ -57,7 +57,6 @@ class AddressStep(wizard.GroupStep):
     def __init__(self, context, request, wizard):
         # Use collective.beaker for session managment
         session = ISession(request, None)
-        session.auto = 'on'
         self.sessionmanager = session
 
         super(AddressStep, self).__init__(context, request, wizard)
