@@ -1,0 +1,22 @@
+<tal:block i18n:domain="hejasverige.wizard">
+<style>
+  li.wizard-step-link { 
+    float: left;
+    display: block;
+    padding: 5px;ß
+  }
+  li.selected {
+    font-weight: bold;
+  }
+  div.form {clear: both;}    
+  </style>
+
+<h4 i18n:translate="">
+Bra det var allt!
+</h4><p>
+Nu är du klar och kan börja att samla in återbäring till ditt Heja Sverige-konto.
+Är det något du vill ändra eller lägga till så hittar du allt under menyn ”Inställningar”.
+Om du klickar <a tal:attributes="href view/get_url">här</a> kommer du till dina sidor.
+</p>
+
+</tal:block>

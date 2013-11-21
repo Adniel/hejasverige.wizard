@@ -7,7 +7,8 @@ from plone.z3cform.layout import FormWrapper
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.statusmessages.adapter import _decodeCookieValue
 from collective.beaker.interfaces import ISession
-
+from zope.component.hooks import getSite
+from zope.component import getMultiAdapter
 
 from five import grok
 from plone import api
@@ -40,6 +41,26 @@ class IntroStep(wizard.Step):
 
         super(IntroStep, self).__init__(context, request, wizard)
 
+class UtroStep(wizard.Step):
+    prefix = 'utro'
+    fields = {}
+    label = 'Tack!'
+    index = viewpagetemplatefile.ViewPageTemplateFile('utro.pt')
+
+    def __init__(self, context, request, wizard):
+        # Use collective.beaker for session managment
+        session = ISession(request, None)
+        self.sessionmanager = session
+
+        super(UtroStep, self).__init__(context, request, wizard)
+
+    def get_url(self):
+
+        url = self.wizard.get_finish_url()
+        import pdb; pdb.set_trace()
+        return url  
+
+
 class Wizard(wizard.Wizard):
     label = u"Kom igång"
     validate_back = False
@@ -54,7 +75,7 @@ class Wizard(wizard.Wizard):
 
     @property
     def steps(self):
-        steps = [IntroStep, AddressStep, FamilyStep, CardStep]
+        steps = [IntroStep, AddressStep, FamilyStep, CardStep, UtroStep]
         return steps
 
     def applySteps(self, pfg, initial_finish=True):
@@ -68,7 +89,22 @@ class Wizard(wizard.Wizard):
     def showClear(self):
         return False
 
+    def get_finish_url(self):
+        context_state = getMultiAdapter((self.context, self.request),
+                                        name=u'plone_context_state')
 
+        actions = context_state.actions(category="hejasverige.mymenu")
+        if actions:
+            url = actions[0]['url']        
+            if url:
+                return url
+                
+        return getSite().absolute_url()
+
+    def finish(self):
+        super(Wizard, self).finish()
+        url = self.get_finish_url()
+        return self.request.response.redirect(url)
 
 class WizardView(FormWrapper):
     form = Wizard

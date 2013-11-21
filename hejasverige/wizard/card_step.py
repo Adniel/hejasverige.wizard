@@ -72,10 +72,10 @@ class CardStep(wizard.Step):
 
     template = viewpagetemplatefile.ViewPageTemplateFile('card_step.pt')
     prefix = 'two'
-    fields = field.Fields(
-       schema.TextLine(__name__='name', title=u"Name", required=True),
-       schema.TextLine(__name__='bank', title=u'Favorite Bank', required=True),
-    )
+    fields = field.Fields()
+    #   schema.TextLine(__name__='name', title=u"Name", required=True),
+    #   schema.TextLine(__name__='bank', title=u'Favorite Bank', required=True),
+    #)
 
     def __init__(self, context, request, wizard):
         # Use collective.beaker for session managment
