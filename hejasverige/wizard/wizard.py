@@ -57,7 +57,7 @@ class UtroStep(wizard.Step):
     def get_url(self):
 
         url = self.wizard.get_finish_url()
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         return url  
 
 
@@ -98,7 +98,7 @@ class Wizard(wizard.Wizard):
             url = actions[0]['url']        
             if url:
                 return url
-                
+
         return getSite().absolute_url()
 
     def finish(self):
